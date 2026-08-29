@@ -7,6 +7,7 @@
 <title>Contact — F5 Geological Solutions Tanzania</title>
 <meta name="description" content="Contact F5 Geological Solutions in Mwanza, Tanzania. Phone +255 768 722 744 · info@f5geological.co.tz">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/arvin-chat.css">
 <style>
 :root{
   --basalt:#141210; --basalt-2:#1d1a15;
@@ -21,6 +22,7 @@
 html{scroll-behavior:smooth}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 body{font-family:"IBM Plex Sans",system-ui,sans-serif;background:var(--sand);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body.menu-open{overflow:hidden}
 h1,h2,h3,h4{font-family:"Archivo",sans-serif;line-height:1.02;letter-spacing:-.02em}
 a{color:inherit;text-decoration:none}
 img{max-width:100%;display:block}
@@ -48,7 +50,7 @@ nav.links>a:hover,.dd>a:hover,nav.links>a.active,.dd>a.active{opacity:1;color:va
 .dd:hover .dd-menu,.dd:focus-within .dd-menu{opacity:1;visibility:visible;transform:translateX(-50%) translateY(2px)}
 .dd-menu a{display:block;padding:11px 14px;border-radius:7px;font-size:13.5px;color:#cfc8b7;transition:background .2s,color .2s}
 .dd-menu a:hover{background:var(--basalt);color:var(--gold-bright)}
-.nav-cta{background:var(--gold)!important;color:var(--basalt)!important;padding:10px 18px;border-radius:6px;font-weight:600;font-size:14px;opacity:1!important;transition:transform .2s var(--ease),background .2s}
+.nav-cta{background:var(--gold)!important;color:var(--basalt)!important;padding:11px 22px!important;min-width:140px;border-radius:7px;font-weight:600;font-size:14px;line-height:1.2;white-space:nowrap;flex-shrink:0;text-align:center;opacity:1!important;transition:transform .2s var(--ease),background .2s}
 .nav-cta:hover{background:var(--gold-bright)!important;transform:translateY(-2px)}
 .burger{display:none;background:none;border:0;cursor:pointer;width:44px;height:44px;flex-direction:column;justify-content:center;gap:5px;align-items:flex-end}
 .burger span{display:block;height:2px;width:26px;background:var(--sand);transition:.3s var(--ease)}
@@ -236,9 +238,11 @@ form.cf h3{font-size:clamp(25px,3vw,32px);margin-bottom:34px}
 form.cf .fld{margin:0}
 form.cf .fld.full{grid-column:1/-1}
 form.cf label{display:block;font-family:"IBM Plex Mono";font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:#87431e;margin-bottom:10px}
-form.cf input,form.cf select{width:100%;height:58px;background:#f8f3e9;border:1px solid #dcc7a0;border-radius:8px;padding:0 16px;color:var(--ink);font-family:"IBM Plex Sans";font-size:16px;transition:border-color .2s,box-shadow .2s,background .2s}
-form.cf input::placeholder{color:#716f6b;opacity:1}
-form.cf input:focus,form.cf select:focus{outline:none;border-color:var(--gold);background:#fff;box-shadow:0 0 0 3px rgba(193,144,31,.13)}
+form.cf input,form.cf select,form.cf textarea{width:100%;background:#f8f3e9;border:1px solid #dcc7a0;border-radius:8px;padding:0 16px;color:var(--ink);font-family:"IBM Plex Sans";font-size:16px;transition:border-color .2s,box-shadow .2s,background .2s}
+form.cf input,form.cf select{height:58px}
+form.cf textarea{min-height:128px;padding:16px;resize:vertical;line-height:1.55}
+form.cf input::placeholder,form.cf textarea::placeholder{color:#716f6b;opacity:1}
+form.cf input:focus,form.cf select:focus,form.cf textarea:focus{outline:none;border-color:var(--gold);background:#fff;box-shadow:0 0 0 3px rgba(193,144,31,.13)}
 form.cf select{appearance:auto;cursor:pointer}
 form.cf .btn-gold{width:100%;height:58px;justify-content:center;margin-top:28px;border-radius:999px;background:#c4811d;color:#fff;font-size:17px}
 form.cf .btn-gold:hover{background:#da941f}
@@ -280,7 +284,8 @@ footer{background:#100e0c;color:#948b78;padding:60px 0 30px;border-top:1px solid
   .foot-grid{grid-template-columns:1fr 1fr;gap:32px}
 }
 @media (max-width:760px){
-  nav.links{position:fixed;inset:0 0 0 auto;width:min(82vw,340px);background:var(--basalt);flex-direction:column;justify-content:flex-start;align-items:flex-start;gap:6px;padding:96px 32px 40px;transform:translateX(100%);transition:transform .4s var(--ease);border-left:1px solid var(--line-dark);overflow-y:auto}
+  header.nav,header.nav.solid,header.nav.scrolled{backdrop-filter:none;-webkit-backdrop-filter:none}
+  nav.links{position:fixed;top:0;right:0;bottom:auto;left:auto;width:min(82vw,340px);height:100vh;height:100dvh;min-height:100vh;background:var(--basalt);flex-direction:column;justify-content:flex-start;align-items:flex-start;gap:6px;padding:96px 32px 40px;transform:translateX(100%);transition:transform .4s var(--ease);border-left:1px solid var(--line-dark);overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;z-index:105}
   nav.links.open{transform:none;box-shadow:-30px 0 60px -20px rgba(0,0,0,.6)}
   nav.links>a,.dd>a{font-size:18px;padding:10px 0}
   .dd{flex-direction:column;align-items:flex-start;width:100%}
@@ -356,6 +361,7 @@ footer{background:#100e0c;color:#948b78;padding:60px 0 30px;border-top:1px solid
         <div class="fld"><label for="e">Email</label><input id="e" name="e" type="email" placeholder="you@company.com" autocomplete="email" required></div>
         <div class="fld"><label for="phone">Phone</label><input id="phone" name="phone" type="tel" placeholder="+255 …" autocomplete="tel"></div>
         <div class="fld full"><label for="s">Service of interest</label><select id="s" name="s"><option value="Sampling Consumables — Supply & Leasing">Sampling Consumables — Supply &amp; Leasing</option><option value="Ground Survey Demarcation Tools">Ground Survey Demarcation Tools</option><option value="Geology Technical Support">Geology Technical Support</option><option value="RC & Diamond Drilling Technical Support">RC &amp; Diamond Drilling Technical Support</option><option value="Labour Hire Support">Labour Hire Support</option><option value="Not sure / general enquiry">Not sure / general enquiry</option></select></div>
+        <div class="fld full"><label for="comments">Comments</label><textarea id="comments" name="comments" placeholder="Tell us about your site, scope, requirements and timeline…" required></textarea></div>
       </div>
       <button type="submit" class="btn btn-gold">Send Enquiry</button>
       <div class="cf-note" id="cfnote" role="status" aria-live="polite"></div>
@@ -407,10 +413,10 @@ if(nav){
 /* ---- mobile menu ---- */
 const burger=document.getElementById('burger'),links=document.getElementById('links');
 if(burger&&links){
-  burger.addEventListener('click',()=>{const o=links.classList.toggle('open');burger.classList.toggle('open',o);burger.setAttribute('aria-expanded',o);});
+  burger.addEventListener('click',()=>{const o=links.classList.toggle('open');burger.classList.toggle('open',o);burger.setAttribute('aria-expanded',o);document.body.classList.toggle('menu-open',o);});
   links.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
     if(a.parentElement.classList.contains('dd'))return; /* let dropdown parent stay */
-    links.classList.remove('open');burger.classList.remove('open');burger.setAttribute('aria-expanded',false);
+    links.classList.remove('open');burger.classList.remove('open');burger.setAttribute('aria-expanded',false);document.body.classList.remove('menu-open');
   }));
 }
 /* ---- reveal on scroll ---- */
@@ -446,13 +452,14 @@ if(cf){
   cf.addEventListener('submit',ev=>{
     ev.preventDefault();
     const f=ev.target,note=document.getElementById('cfnote');
-    if(!f.n.value||!f.e.value){note.style.color='var(--copper)';note.textContent='Please complete your name and email.';return;}
-    const body=encodeURIComponent(`Name: ${f.n.value}\nCompany / site: ${f.company.value}\nEmail: ${f.e.value}\nPhone: ${f.phone.value}\nService: ${f.s.value}`);
+    if(!f.n.value||!f.e.value||!f.comments.value){note.style.color='var(--copper)';note.textContent='Please complete your name, email and comments.';return;}
+    const body=encodeURIComponent(`Name: ${f.n.value}\nCompany / site: ${f.company.value}\nEmail: ${f.e.value}\nPhone: ${f.phone.value}\nService: ${f.s.value}\n\nComments:\n${f.comments.value}`);
     note.style.color='var(--malachite)';note.textContent='Opening your email app…';
     window.location.href=`mailto:info@f5geological.co.tz?subject=${encodeURIComponent('Enquiry from '+f.n.value)}&body=${body}`;
   });
 }
 
 </script>
+<script src="assets/arvin-chat.js" defer></script>
 </body>
 </html>
