@@ -1,0 +1,11 @@
+.privacy-consent{position:fixed;left:20px;right:20px;bottom:20px;z-index:1000;display:none;max-width:1120px;margin:auto;background:#1d1a15;color:#e7e1d3;border:1px solid #4b4336;border-radius:12px;box-shadow:0 24px 70px rgba(20,18,16,.4);padding:22px 24px}
+.privacy-consent.is-visible{display:flex;align-items:center;justify-content:space-between;gap:28px}
+.privacy-consent__copy{max-width:760px}
+.privacy-consent__copy strong{display:block;font-size:17px;margin-bottom:5px}
+.privacy-consent__copy p{margin:0;color:#bdb5a5;font-size:13.5px;line-height:1.6}
+.privacy-consent__copy a{color:#e0ab30;text-decoration:underline;text-underline-offset:3px}
+.privacy-consent__actions{display:flex;gap:10px;flex:none}
+.privacy-consent__button{border:1px solid #756a58;border-radius:7px;padding:11px 18px;background:transparent;color:#e7e1d3;font:600 13px inherit;cursor:pointer}
+.privacy-consent__button--accept{border-color:#c1901f;background:#c1901f;color:#141210}
+.privacy-consent__button:hover{transform:translateY(-1px)}
+@media(max-width:680px){.privacy-consent{left:12px;right:12px;bottom:12px;padding:20px}.privacy-consent.is-visible{display:block}.privacy-consent__actions{margin-top:16px}.privacy-consent__button{flex:1}}
