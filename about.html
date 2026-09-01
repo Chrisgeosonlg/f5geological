@@ -409,10 +409,10 @@ body,body *,button,input,select,textarea{font-family:"Montserrat",system-ui,sans
 
 <section class="stats">
   <div class="wrap stats-grid">
-    <div class="stat"><div class="num" data-count="20">0<span class="plus">+</span></div><div class="lab">Years combined experience</div></div>
-    <div class="stat"><div class="num" data-count="150">0<span class="plus">+</span></div><div class="lab">Projects engaged</div></div>
-    <div class="stat"><div class="num" data-count="6">0<span class="plus">+</span></div><div class="lab">Countries reached</div></div>
-    <div class="stat"><div class="num" data-count="80">0<span class="plus">+</span></div><div class="lab">Satisfied clients</div></div>
+    <div class="stat"><div class="num" data-count="25">0<span class="plus">+</span></div><div class="lab">Years, CEO field experience</div></div>
+    <div class="stat"><div class="num" data-count="5" data-pad="2">00</div><div class="lab">Connected service pillars</div></div>
+    <div class="stat"><div class="num" data-count="9" data-pad="2">00</div><div class="lab">Countries of operations</div></div>
+    <div class="stat"><div class="num" data-count="2024">0</div><div class="lab">Registered in Tanzania</div></div>
   </div>
 </section>
 <section class="band paper">
@@ -528,9 +528,9 @@ const seen=new WeakSet();
 const so=new IntersectionObserver((es)=>es.forEach(e=>{
   if(e.isIntersecting&&!seen.has(e.target)){
     seen.add(e.target);
-    const el=e.target,target=+el.dataset.count;let n=0;const step=Math.max(1,Math.ceil(target/45));
+    const el=e.target,target=+el.dataset.count,pad=+el.dataset.pad||0;let n=0;const step=Math.max(1,Math.ceil(target/45));
     const plus=el.querySelector('.plus')?el.querySelector('.plus').outerHTML:'';
-    const t=setInterval(()=>{n+=step;if(n>=target){n=target;clearInterval(t);}el.innerHTML=n+plus;},26);
+    const t=setInterval(()=>{n+=step;if(n>=target){n=target;clearInterval(t);}el.innerHTML=String(n).padStart(pad,'0')+plus;},26);
   }
 }),{threshold:.6});
 document.querySelectorAll('.num[data-count]').forEach(el=>so.observe(el));
