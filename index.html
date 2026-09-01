@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+document.documentElement.classList.add('show-preloader');
+</script>
 <link rel="icon" type="image/png" href="assets/f5-geological-logo.png">
 <title>F5 Geological Solutions Tanzania — Full-stream mining services across Africa</title>
 <meta name="description" content="F5 Geological Solutions Tanzania (F5G): drilling support, ground survey, sampling consumables, geology technical support and labour hire for the exploration and mining industry.">
@@ -20,9 +23,25 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.preloader-mark,.core-scan i,.core-scan::after{animation:none}.core-scan i{transform:none}}
 body{font-family:"IBM Plex Sans",system-ui,sans-serif;background:var(--sand);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 body.menu-open{overflow:hidden}
+.show-preloader body{overflow:hidden}
+.preloader{position:fixed;inset:0;z-index:9999;display:none;place-items:center;background:var(--basalt);color:var(--sand);transition:opacity .55s var(--ease),visibility .55s}
+.show-preloader .preloader{display:grid}
+.preloader.done{opacity:0;visibility:hidden;pointer-events:none}
+.preloader-inner{width:min(82vw,360px);text-align:center}
+.preloader-mark{width:62px;height:62px;margin:0 auto 22px;object-fit:contain;filter:drop-shadow(0 7px 18px rgba(0,0,0,.42));animation:preMark .8s var(--ease) both}
+.preloader-name{font-family:"Archivo",sans-serif;font-size:clamp(16px,4vw,21px);font-weight:800;letter-spacing:.12em}
+.preloader-sub{margin-top:5px;font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold)}
+.core-scan{position:relative;display:flex;height:7px;margin:26px auto 13px;overflow:hidden;border-radius:99px;background:#29251f}
+.core-scan i{flex:1;transform:scaleY(0);animation:preCore .45s var(--ease) forwards}
+.core-scan i:nth-child(1){background:#6a5a41;animation-delay:.18s}.core-scan i:nth-child(2){background:#9c8340;animation-delay:.28s}.core-scan i:nth-child(3){background:var(--copper);animation-delay:.38s}.core-scan i:nth-child(4){background:var(--malachite);animation-delay:.48s}.core-scan i:nth-child(5){background:var(--gold);animation-delay:.58s}
+.core-scan::after{content:"";position:absolute;top:-5px;bottom:-5px;width:32%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.72),transparent);filter:blur(2px);animation:preScan 1.15s .28s var(--ease) both}
+.preloader-status{font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:#8f8778}
+@keyframes preMark{from{opacity:0;transform:translateY(9px) scale(.92)}to{opacity:1;transform:none}}
+@keyframes preCore{to{transform:scaleY(1)}}
+@keyframes preScan{from{left:-38%}to{left:105%}}
 h1,h2,h3,h4{font-family:"Archivo",sans-serif;line-height:1.02;letter-spacing:-.02em}
 a{color:inherit;text-decoration:none}
 img{max-width:100%;display:block}
@@ -312,6 +331,15 @@ body,body *,button,input,select,textarea{font-family:"Montserrat",system-ui,sans
 <link rel="stylesheet" href="assets/privacy-consent.css">
 </head>
 <body>
+<div class="preloader" id="preloader" role="status" aria-label="Loading F5 Geological">
+  <div class="preloader-inner">
+    <img class="preloader-mark" src="assets/f5-geological-logo.png" alt="">
+    <div class="preloader-name">F5 GEOLOGICAL</div>
+    <div class="preloader-sub">Solutions Tanzania</div>
+    <div class="core-scan" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="preloader-status">Reading the ground</div>
+  </div>
+</div>
 <header class="nav" id="nav">
   <div class="wrap nav-in">
     <a class="brand" href="index.html" aria-label="F5 Geological home">
@@ -516,6 +544,18 @@ body,body *,button,input,select,textarea{font-family:"Montserrat",system-ui,sans
   </div>
 </footer>
 <script>
+/* ---- page-load preloader ---- */
+(function(){
+  const root=document.documentElement,loader=document.getElementById('preloader');
+  if(!root.classList.contains('show-preloader')||!loader){if(loader)loader.remove();return;}
+  const started=performance.now();let dismissed=false;
+  const dismiss=()=>{if(dismissed)return;dismissed=true;setTimeout(()=>{
+    loader.classList.add('done');root.classList.remove('show-preloader');
+    setTimeout(()=>loader.remove(),600);
+  },Math.max(0,1250-(performance.now()-started)))};
+  if(document.readyState==='complete')dismiss();else addEventListener('load',dismiss,{once:true});
+  setTimeout(dismiss,3000);
+})();
 /* ---- nav scroll state ---- */
 const nav=document.getElementById('nav');
 if(nav){
