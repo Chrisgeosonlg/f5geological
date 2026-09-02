@@ -246,6 +246,7 @@ form.cf input:focus,form.cf select:focus,form.cf textarea:focus{outline:none;bor
 form.cf select{appearance:auto;cursor:pointer}
 form.cf .btn-gold{width:100%;height:58px;justify-content:center;margin-top:28px;border-radius:999px;background:#c4811d;color:#fff;font-size:17px}
 form.cf .btn-gold:hover{background:#da941f}
+form.cf .btn-gold:disabled{cursor:wait;opacity:.7}
 .cf-note{font-family:"IBM Plex Mono";font-size:12px;color:var(--malachite);margin-top:14px;min-height:18px;text-align:center}
 .map-wrap{border-radius:14px;overflow:hidden;border:1px solid var(--line-dark);margin-top:44px;filter:grayscale(.3) contrast(1.05)}
 .map-wrap iframe{display:block;width:100%;height:340px;border:0}
@@ -357,12 +358,13 @@ body,body *,button,input,select,textarea{font-family:"Montserrat",system-ui,sans
     </div>
     <form class="cf reveal" id="cf" novalidate>
       <h3>Send an enquiry</h3>
+      <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
       <div class="cf-grid">
-        <div class="fld"><label for="n">Full name</label><input id="n" name="n" type="text" placeholder="Your name" autocomplete="name" required></div>
+        <div class="fld"><label for="n">Full name</label><input id="n" name="name" type="text" placeholder="Your name" autocomplete="name" required></div>
         <div class="fld"><label for="company">Company</label><input id="company" name="company" type="text" placeholder="Company / site" autocomplete="organization"></div>
-        <div class="fld"><label for="e">Email</label><input id="e" name="e" type="email" placeholder="you@company.com" autocomplete="email" required></div>
+        <div class="fld"><label for="e">Email</label><input id="e" name="email" type="email" placeholder="you@company.com" autocomplete="email" required></div>
         <div class="fld"><label for="phone">Phone</label><input id="phone" name="phone" type="tel" placeholder="+255 …" autocomplete="tel"></div>
-        <div class="fld full"><label for="s">Service of interest</label><select id="s" name="s"><option value="Sampling Consumables — Supply & Leasing">Sampling Consumables — Supply &amp; Leasing</option><option value="Ground Survey Demarcation Tools">Ground Survey Demarcation Tools</option><option value="Geology Technical Support">Geology Technical Support</option><option value="RC & Diamond Drilling Technical Support">RC &amp; Diamond Drilling Technical Support</option><option value="Labour Hire Support">Labour Hire Support</option><option value="Not sure / general enquiry">Not sure / general enquiry</option></select></div>
+        <div class="fld full"><label for="s">Service of interest</label><select id="s" name="service"><option value="Sampling Consumables — Supply & Leasing">Sampling Consumables — Supply &amp; Leasing</option><option value="Ground Survey Demarcation Tools">Ground Survey Demarcation Tools</option><option value="Geology Technical Support">Geology Technical Support</option><option value="RC & Diamond Drilling Technical Support">RC &amp; Diamond Drilling Technical Support</option><option value="Labour Hire Support">Labour Hire Support</option><option value="Not sure / general enquiry">Not sure / general enquiry</option></select></div>
         <div class="fld full"><label for="comments">Comments</label><textarea id="comments" name="comments" placeholder="Tell us about your site, scope, requirements and timeline…" required></textarea></div>
       </div>
       <button type="submit" class="btn btn-gold">Send Enquiry</button>
@@ -449,16 +451,25 @@ document.querySelectorAll('.svc .svc-head').forEach(h=>{
 /* ruler ticks */
 const ruler=document.getElementById('ruler');
 if(ruler){for(let i=0;i<=6;i++){const t=document.createElement('div');t.className='tick';t.style.top=(i/6*100)+'%';t.textContent=(i*40)+'m';ruler.appendChild(t);}}
-/* ---- contact form (front-end only) ---- */
+/* ---- contact form ---- */
 const cf=document.getElementById('cf');
 if(cf){
-  cf.addEventListener('submit',ev=>{
+  cf.addEventListener('submit',async ev=>{
     ev.preventDefault();
-    const f=ev.target,note=document.getElementById('cfnote');
-    if(!f.n.value||!f.e.value||!f.comments.value){note.style.color='var(--copper)';note.textContent='Please complete your name, email and comments.';return;}
-    const body=encodeURIComponent(`Name: ${f.n.value}\nCompany / site: ${f.company.value}\nEmail: ${f.e.value}\nPhone: ${f.phone.value}\nService: ${f.s.value}\n\nComments:\n${f.comments.value}`);
-    note.style.color='var(--malachite)';note.textContent='Opening your email app…';
-    window.location.href=`mailto:info@f5geological.co.tz?subject=${encodeURIComponent('Enquiry from '+f.n.value)}&body=${body}`;
+    const f=ev.target,note=document.getElementById('cfnote'),button=f.querySelector('button[type="submit"]');
+    if(!f.checkValidity()){f.reportValidity();note.style.color='var(--copper)';note.textContent='Please complete your name, email and comments.';return;}
+    button.disabled=true;button.textContent='Sending…';note.style.color='var(--malachite)';note.textContent='Sending your enquiry…';
+    try{
+      const data=Object.fromEntries(new FormData(f).entries());
+      data._subject='New website enquiry from '+data.name;
+      data._template='table';
+      const response=await fetch('https://formsubmit.co/ajax/info@f5geological.co.tz',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(data)});
+      const result=await response.json().catch(()=>({}));
+      if(!response.ok||result.success===false)throw new Error('Submission failed');
+      f.reset();note.style.color='var(--malachite)';note.textContent='Thank you. Your enquiry has been sent successfully.';
+    }catch(error){
+      note.style.color='var(--copper)';note.textContent='We could not send your enquiry. Please email info@f5geological.co.tz or call +255 768 722 744.';
+    }finally{button.disabled=false;button.textContent='Send Enquiry';}
   });
 }
 
